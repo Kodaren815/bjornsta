@@ -1,0 +1,16 @@
+<svg width="400" height="120" viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Text BJÖRNSTA -->
+  <text x="20" y="80" font-family="serif" font-size="60" font-weight="700" fill="#000000">BJÖRNSTA</text>
+  
+  <!-- Circle with graph bars -->
+  <circle cx="200" cy="60" r="30" stroke="#000000" stroke-width="2" fill="none"/>
+  <circle cx="200" cy="60" r="27" stroke="#000000" stroke-width="1.5" fill="none"/>
+  
+  <!-- Graph bars inside circle -->
+  <rect x="190" y="50" width="5" height="20" fill="#2D5F3F" rx="1"/>
+  <rect x="197" y="45" width="5" height="25" fill="#2D5F3F" rx="1"/>
+  <rect x="204" y="40" width="5" height="30" fill="#2D5F3F" rx="1"/>
+  
+  <!-- Arrow -->
+  <path d="M 210 50 L 218 42 L 216 44 L 218 46 Z" fill="#000000"/>
+</svg>

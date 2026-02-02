@@ -36,10 +36,18 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-purple-50/30 via-white to-violet-50/30 relative overflow-hidden">
+    <section id="contact" className="py-20 bg-gradient-to-tr from-purple-50 via-white to-violet-50 relative overflow-hidden">
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'linear-gradient(to right, rgba(147, 51, 234, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(147, 51, 234, 0.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px'
+        }} />
+      </div>
+      
       {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-20 -z-10" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-violet-200 rounded-full blur-3xl opacity-20 -z-10" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-300 to-violet-300 rounded-full blur-3xl opacity-20 -z-10" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-violet-300 to-purple-300 rounded-full blur-3xl opacity-20 -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -177,8 +185,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">E-post</p>
-                    <a href="mailto:info@bjornsta.se" className="text-purple-100 hover:text-white transition-colors">
-                      info@bjornsta.se
+                    <a href="mailto:fakhri.shehab@bjornstaconsulting.com" className="text-purple-100 hover:text-white transition-colors">
+                      fakhri.shehab@bjornstaconsulting.com
                     </a>
                   </div>
                 </div>
@@ -189,8 +197,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">Telefon</p>
-                    <a href="tel:+46123456789" className="text-purple-100 hover:text-white transition-colors">
-                      +46 (0) 123 456 789
+                    <a href="tel:+46760602088" className="text-purple-100 hover:text-white transition-colors">
+                      076-060 20 88
                     </a>
                   </div>
                 </div>
@@ -202,7 +210,8 @@ const Contact = () => {
                   <div>
                     <p className="font-semibold mb-1">Adress</p>
                     <p className="text-purple-100">
-                      Stockholm, Sverige
+                      Heljestrandsgatan 5A<br />
+                      633 44 Eskilstuna
                     </p>
                   </div>
                 </div>

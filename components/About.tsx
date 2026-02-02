@@ -32,10 +32,15 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-20 bg-white relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-30 -z-10" />
-      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-30 -z-10" />
+    <section id="about" className="py-20 bg-gradient-to-br from-white via-violet-50/40 to-purple-50/40 relative overflow-hidden">
+      {/* Mesh gradient background */}
+      <div className="absolute inset-0 opacity-40" style={{
+        backgroundImage: 'radial-gradient(at 40% 20%, rgba(147, 51, 234, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(167, 139, 250, 0.15) 0px, transparent 50%)',
+      }} />
+      
+      {/* Animated gradient orbs */}
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-violet-200 rounded-full blur-3xl opacity-30 -z-10 animate-pulse" style={{ animationDuration: '4s' }} />
+      <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-gradient-to-tr from-violet-200 to-purple-200 rounded-full blur-3xl opacity-30 -z-10 animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -54,14 +59,23 @@ const About = () => {
               </span>
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              På Björnsta Consulting Group har vårt team av experter många års erfarenhet inom 
-              redovisningsbranschen. Vi är dedikerade till att tillhandahålla personlig service 
-              till varje kund.
+              På Björnsta har vårt team av experter många års erfarenhet inom redovisningsbranschen. 
+              Vi är dedikerade till att tillhandahålla personlig service till varje kund, oavsett 
+              företagets storlek eller bransch. Våra tjänster är skräddarsydda för att möta just dina 
+              specifika behov och utmaningar.
+            </p>
+            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              Vi arbetar outtröttligt för att säkerställa att dina ekonomiska behov tillgodoses med 
+              högsta precision och professionalism. Vårt mål är att bli din långsiktiga partner för 
+              finansiell framgång. Med över 90 nöjda kunder och 5 industri-partners har vi bevisat 
+              vår förmåga att leverera resultat.
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Vi arbetar outtröttligt för att säkerställa att dina ekonomiska behov tillgodoses 
-              med högsta precision och professionalism. Vårt mål är att bli din långsiktiga partner 
-              för finansiell framgång.
+              Vår expertis omfattar allt från löpande bokföring och månadsrapporter till komplex 
+              skatteplanering och finansiell rådgivning. Vi håller oss ständigt uppdaterade med de 
+              senaste regelverken och använder moderna verktyg för att effektivisera dina processer. 
+              Oavsett om du driver ett litet företag eller ett större bolag, erbjuder vi lösningar 
+              som hjälper dig att fokusera på din kärnverksamhet medan vi tar hand om ekonomin.
             </p>
 
             {/* CTA Button */}

@@ -1,9 +1,4 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { BookOpen, Calculator, FileCheck, TrendingUp } from 'lucide-react';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 
 const services = [
   {
@@ -22,60 +17,33 @@ const services = [
   },
   {
     icon: FileCheck,
-    title: 'Avstämningar',
-    description: 'Noggranna avstämningstjänster för att säkerställa integriteten i dina finansiella rapporter och uppfylla regulatoriska krav.',
-    features: ['Kontoavstämning', 'Bankavstämning', 'Balansräkning', 'Resultatrapport'],
+    title: 'Reskontra & Fakturahantering',
+    description: 'Komplett hantering av leverantörs- och kundreskontra samt fakturering. Vi hjälper er sätta upp betalningar till leverantörer och fakturerar åt er.',
+    features: ['Leverantörsreskontra', 'Kundreskontra', 'Fakturahantering', 'Betalningshantering'],
     color: 'from-purple-600 to-purple-700',
   },
   {
     icon: TrendingUp,
-    title: 'Finansiell Rådgivning',
-    description: 'Strategisk finansiell rådgivning för att hjälpa ditt företag att växa och nå sina ekonomiska mål med expertis och erfarenhet.',
-    features: ['Affärsplanering', 'Budgetering', 'Kassaflödesanalys', 'Ekonomisk strategi'],
+    title: 'Löneadministration & Rådgivning',
+    description: 'Professionell lönehantering och strategisk finansiell rådgivning för att hjälpa ditt företag att växa och nå sina ekonomiska mål.',
+    features: ['Lönehantering', 'Affärsplanering', 'Budgetering', 'Ekonomisk strategi'],
     color: 'from-violet-600 to-violet-700',
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
 const Services = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="services" className="py-20 bg-gradient-to-br from-white via-purple-50/20 to-white relative overflow-hidden">
+    <section id="services" className="py-20 bg-gradient-to-br from-gray-50 via-purple-50/50 to-white relative overflow-hidden">
+      {/* Diagonal gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-purple-100/20 to-violet-100/30 -z-10" />
+      
       {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-20 -z-10" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-violet-200 rounded-full blur-3xl opacity-20 -z-10" />
+      <div className="absolute top-20 -right-20 w-96 h-96 bg-gradient-to-br from-purple-200 to-violet-200 rounded-full blur-3xl opacity-25 -z-10" />
+      <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-gradient-to-tr from-violet-200 to-purple-200 rounded-full blur-3xl opacity-25 -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">Våra Tjänster</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
             Komplett Finansiell{' '}
@@ -86,27 +54,23 @@ const Services = () => {
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Vi erbjuder ett komplett utbud av redovisnings- och skattetjänster skräddarsydda för dina behov
           </p>
-        </motion.div>
+        </div>
 
         {/* Services Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <motion.div
+              <article
                 key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.03 }}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                className="group bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-purple-100/50 hover:border-purple-200 hover:-translate-y-1"
               >
-                <div className="p-8">
+                <div className="p-8 relative">
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50/0 to-violet-50/0 group-hover:from-purple-50/50 group-hover:to-violet-50/50 transition-all duration-300 rounded-2xl" />
+                  
                   {/* Icon */}
-                  <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${service.color} text-white mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`relative inline-flex p-4 rounded-xl bg-gradient-to-br ${service.color} text-white mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
                     <Icon size={32} />
                   </div>
 
@@ -131,10 +95,10 @@ const Services = () => {
 
                 {/* Bottom Border Animation */}
                 <div className={`h-1 bg-gradient-to-r ${service.color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
-              </motion.div>
+              </article>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

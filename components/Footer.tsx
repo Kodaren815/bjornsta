@@ -64,15 +64,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-gray-300">
                 <Mail size={18} className="text-purple-400" />
-                <span>info@bjornsta.se</span>
+                <span>fakhri.shehab@bjornstaconsulting.com</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-300">
                 <Phone size={18} className="text-purple-400" />
-                <span>+46 (0) 123 456 789</span>
+                <span>076-060 20 88</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-300">
                 <MapPin size={18} className="text-purple-400" />
-                <span>Stockholm, Sverige</span>
+                <span>Heljestrandsgatan 5A, 633 44 Eskilstuna</span>
               </li>
             </ul>
 

@@ -15,7 +15,7 @@ export default function JsonLd() {
       '@type': 'ContactPoint',
       telephone: '+46-123-456-789',
       contactType: 'Customer Service',
-      email: 'info@bjornsta.se',
+      email: 'fakhri.shehab@bjornstaconsulting.com',
       availableLanguage: ['Swedish', 'English'],
     },
     sameAs: [

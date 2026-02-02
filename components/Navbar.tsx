@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -18,10 +19,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: '#home', label: 'Hem' },
-    { href: '#services', label: 'Tjänster' },
-    { href: '#about', label: 'Om Oss' },
-    { href: '#contact', label: 'Kontakt' },
+  { href: '#home', label: 'Hem' },
+  { href: '#services', label: 'Tjänster' },
+  { href: '#about', label: 'Om Oss' },
+  { href: '#contact', label: 'Kontakt' },
   ];
 
   return (
@@ -40,10 +41,16 @@ const Navbar = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
+              className="flex items-center"
             >
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-                Björnsta
-              </span>
+              <Image
+                src="/PDF_file_page-0001-removebg-preview.png"
+                alt="Björnsta"
+                width={310}
+                height={134}
+                priority
+                className=""
+              />
             </motion.div>
           </Link>
 
@@ -57,6 +64,7 @@ const Navbar = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link
+                  prefetch={false}
                   href={link.href}
                   className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
                 >
@@ -70,6 +78,7 @@ const Navbar = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Link
+                prefetch={false}
                 href="#contact"
                 className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200"
               >
@@ -101,6 +110,7 @@ const Navbar = () => {
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 <Link
+                  prefetch={false}
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
@@ -110,6 +120,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <Link
+                prefetch={false}
                 href="#contact"
                 onClick={() => setIsOpen(false)}
                 className="block text-center bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-200"
