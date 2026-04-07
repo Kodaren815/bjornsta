@@ -28,3 +28,4 @@ npm run build
 ## Deployment
 
 Configured for Netlify deployment. Push to main branch to trigger automatic deployment.
+b
