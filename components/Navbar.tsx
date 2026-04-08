@@ -72,6 +72,12 @@ const Navbar = () => {
                 </Link>
               </motion.div>
             ))}
+            <Link
+              href="/personal"
+              className="text-gray-400 hover:text-gray-500 transition-colors duration-200 text-xs font-normal"
+            >
+              Medarbetare
+            </Link>
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
