@@ -387,30 +387,44 @@ export default function PersonalDashboard() {
     if (excelFileRef.current) excelFileRef.current.value = ''
     try {
       const buf = await file.arrayBuffer()
-      const wb = XLSX.read(buf, { type: 'array' })
+      const uint8 = new Uint8Array(buf)
+      console.log('[Excel import] type:', typeof uint8, 'byteLength:', uint8.byteLength)
+      const wb = XLSX.read(uint8, { type: 'array' })
       const ws = wb.Sheets[wb.SheetNames[0]]
-      const raw = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws)
+      // sheet_to_json with defval so missing cells come back as ''
+      const raw = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, { defval: '' })
+
+      // Build a normalised key map: lowercase-trimmed header → original key
+      const firstRow = raw[0] ?? {}
+      const keyMap: Record<string, string> = {}
+      for (const k of Object.keys(firstRow)) {
+        keyMap[k.toLowerCase().trim()] = k
+      }
+      const get = (row: Record<string, unknown>, col: string): string =>
+        String(row[keyMap[col] ?? col] ?? '').trim()
+
       const rows: ExcelPreviewRow[] = raw.map(r => {
-        const rawId = r['client_id']
-        const parsed = rawId !== undefined && rawId !== '' ? parseInt(String(rawId)) : NaN
+        const rawId = get(r, 'client_id')
+        const parsed = rawId !== '' ? parseInt(rawId) : NaN
         const client_id = isNaN(parsed) ? null : parsed
         return {
           client_id,
-          namn:      String(r['namn']      ?? ''),
-          skr:       String(r['skr']       ?? 'AB'),
-          ansvarig:  String(r['ansvarig']  ?? ''),
-          bransch:   String(r['bransch']   ?? ''),
-          sprak:     String(r['sprak']     ?? ''),
-          freq:      String(r['freq']      ?? 'Månad'),
-          bank:      String(r['bank']      ?? ''),
-          mejl:      String(r['mejl']      ?? ''),
-          warning:   client_id === null ? 'Saknar client_id — tilldelas auto-ID' : undefined,
+          namn:     get(r, 'namn')     || '',
+          skr:      get(r, 'skr')      || 'AB',
+          ansvarig: get(r, 'ansvarig') || '',
+          bransch:  get(r, 'bransch')  || '',
+          sprak:    get(r, 'sprak')    || '',
+          freq:     get(r, 'freq')     || 'Månad',
+          bank:     get(r, 'bank')     || '',
+          mejl:     get(r, 'mejl')     || '',
+          warning:  client_id === null ? 'Saknar client_id — tilldelas auto-ID' : undefined,
         }
       })
       setExcelImportRows(rows)
       setShowExcelImportModal(true)
     } catch (err: unknown) {
-      alert('Kunde inte läsa Excel-filen: ' + (err instanceof Error ? err.message : String(err)))
+      const msg = err instanceof Error ? err.message : JSON.stringify(err)
+      alert('Kunde inte läsa Excel-filen: ' + msg)
     }
   }
 
@@ -440,11 +454,12 @@ export default function PersonalDashboard() {
       }))
       const { error: upsertErr } = await supabase.from('client_status')
         .upsert(rows, { onConflict: 'client_id,month' })
-      if (upsertErr) throw upsertErr
+      if (upsertErr) throw new Error(upsertErr.message ?? JSON.stringify(upsertErr))
       await loadData(selectedMonth)
       setShowExcelImportModal(false); setExcelImportRows([])
     } catch (err: unknown) {
-      alert('Import misslyckades: ' + (err instanceof Error ? err.message : String(err)))
+      const msg = err instanceof Error ? err.message : JSON.stringify(err)
+      alert('Import misslyckades: ' + msg)
     } finally { setLoading(false) }
   }
 
