@@ -108,7 +108,11 @@ const Footer = () => {
           <p className="text-gray-400">
             © {currentYear} Björnsta Consulting Group. Alla rättigheter förbehållna.
           </p>
-        </div>
+                  <Link href="/personal" className="text-gray-400 hover:text-gray-500 text-xs mt-2 inline-block transition-colors">
+                              Medarbetare
+                                        </Link>
+                                        </div>
+        
       </div>
     </footer>
   );

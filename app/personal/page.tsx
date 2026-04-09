@@ -1,48 +1,38 @@
-import Link from 'next/link'
-
 export default function PersonalDashboard() {
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-violet-900">
-      {/* Top bar */}
-      <header className="border-b border-white/10 bg-white/5 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-purple-500/30 border border-purple-400/30 flex items-center justify-center">
-              <svg className="w-4 h-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
-              </svg>
-            </div>
-            <span className="text-white font-semibold text-sm">Björnsta Internt</span>
-          </div>
+    return (
+        <main className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-violet-900">
+              {/* Top bar */}
+                    <header className="border-b border-white/10 bg-white/5 backdrop-blur-sm">
+                            <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+                                      <div className="flex items-center gap-3">
+                                                  <div className="w-8 h-8 rounded-lg bg-purple-500/30 border border-purple-400/30 flex items-center justify-center">
+                                                                <svg className="w-4 h-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                                                                                              </svg>
+                                                                                                          </div>
+                                                                                                                      <span className="text-white font-semibold text-sm">Björnsta Internt</span>
+                                                                                                                                </div>
+                                                                                                                                        </div>
+                                                                                                                                              </header>
 
-          <Link
-            href="/api/personal/logout"
-            className="flex items-center gap-1.5 text-purple-300/70 hover:text-purple-200 text-sm transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-            </svg>
-            Logga ut
-          </Link>
-        </div>
-      </header>
-
-      {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-400/20 mb-6">
-            <svg className="w-8 h-8 text-purple-300 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
-            </svg>
-          </div>
-          <h1 className="text-3xl font-semibold text-white tracking-tight mb-3">
-            Dashboard laddas...
-          </h1>
-          <p className="text-purple-300/60 text-base">
-            Innehåll läggs till snart.
-          </p>
-        </div>
-      </div>
-    </main>
-  )
+                                                                                                                                                    {/* Content */}
+                                                                                                                                                          <div className="max-w-6xl mx-auto px-6 py-16">
+                                                                                                                                                                  <div className="text-center">
+                                                                                                                                                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-400/20 mb-6">
+                                                                                                                                                                                        <svg className="w-8 h-8 text-purple-300 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                                                                                                                                                                                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+                                                                                                                                                                                                                  </svg>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                      <h1 className="text-3xl font-semibold text-white tracking-tight mb-3">
+                                                                                                                                                                                                                                                  Dashboard laddas...
+                                                                                                                                                                                                                                                            </h1>
+                                                                                                                                                                                                                                                                      <p className="text-purple-300/60 text-base">
+                                                                                                                                                                                                                                                                                  Innehåll läggs till snart.
+                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                                                                                                                              </main>
+                                                                                                                                                                                                                                                                                                                )
+                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                
 }
