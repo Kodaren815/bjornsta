@@ -279,7 +279,7 @@ export default function PersonalDashboard() {
     try {
       const { data: rows, error: fetchErr } = await supabase
         .from('client_status').select('*').eq('month', month).order('client_id')
-      if (fetchErr) throw fetchErr
+      if (fetchErr) throw new Error(fetchErr.message ?? JSON.stringify(fetchErr))
 
       if (rows && rows.length > 0) {
         setData(rows as ClientRow[])
@@ -287,7 +287,7 @@ export default function PersonalDashboard() {
         const seedRows = SEED_CLIENTS.map(c => makeEmptyRow(c, month))
         const { data: inserted, error: insertErr } = await supabase
           .from('client_status').insert(seedRows).select()
-        if (insertErr) throw insertErr
+        if (insertErr) throw new Error(insertErr.message ?? JSON.stringify(insertErr))
         setData((inserted ?? []) as ClientRow[])
       } else {
         setData([])
@@ -371,12 +371,22 @@ export default function PersonalDashboard() {
     setLoading(true)
     try {
       const { error: upsertErr } = await supabase.from('client_status')
-        .upsert(jsonImportPreview.map(r => ({ ...r, month: selectedMonth })))
-      if (upsertErr) throw upsertErr
+        .upsert(jsonImportPreview.map(({ id: _id, ...r }) => ({
+          client_id: r.client_id, month: selectedMonth,
+          namn: r.namn, skr: r.skr, ansvarig: r.ansvarig, bransch: r.bransch,
+          sprak: r.sprak, freq: r.freq, bank: r.bank, mejl: r.mejl,
+          kontoutdrag: r.kontoutdrag, skattekonto: r.skattekonto, underlag: r.underlag,
+          bokforing: r.bokforing, fatt_saknade: r.fatt_saknade, konto1630: r.konto1630,
+          avstamning: r.avstamning, agi: r.agi, moms: r.moms, utsk_faktura: r.utsk_faktura,
+          kommentar: r.kommentar, updated_by: r.updated_by, updated_at: r.updated_at,
+          backlog_from: r.backlog_from,
+        })), { onConflict: 'client_id,month' })
+      if (upsertErr) throw new Error(upsertErr.message ?? JSON.stringify(upsertErr))
       await loadData(selectedMonth)
       setShowJsonImportModal(false); setJsonImportPreview([])
     } catch (err: unknown) {
-      alert('Import misslyckades: ' + (err instanceof Error ? err.message : String(err)))
+      const msg = err instanceof Error ? err.message : JSON.stringify(err)
+      alert('Import misslyckades: ' + msg)
     } finally { setLoading(false) }
   }
 
@@ -549,7 +559,7 @@ export default function PersonalDashboard() {
       // Fetch that month's rows fresh
       const { data: monthRows, error: fetchErr } = await supabase
         .from('client_status').select('*').eq('month', month)
-      if (fetchErr) throw fetchErr
+      if (fetchErr) throw new Error(fetchErr.message ?? JSON.stringify(fetchErr))
 
       const incomplete = (monthRows ?? []).filter(r => !isComplete(r as ClientRow))
 
@@ -584,7 +594,7 @@ export default function PersonalDashboard() {
 
         const { error: upsertErr } = await supabase.from('client_status')
           .upsert(backlogRows, { onConflict: 'client_id,month' })
-        if (upsertErr) throw upsertErr
+        if (upsertErr) throw new Error(upsertErr.message ?? JSON.stringify(upsertErr))
       }
 
       // Mark closed
