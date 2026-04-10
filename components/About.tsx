@@ -2,28 +2,28 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Target, Heart, Shield, Zap } from 'lucide-react';
+import { Target, Heart, Shield, Globe } from 'lucide-react';
 
 const values = [
   {
     icon: Target,
     title: 'Precision',
-    description: 'Vi levererar exakta och noggranna finansiella tjänster',
+    description: 'Exakta och noggranna finansiella tjänster — ingen siffra är för liten för att räknas rätt.',
   },
   {
     icon: Heart,
     title: 'Dedikation',
-    description: 'Vi är engagerade i din framgång och tillväxt',
+    description: 'Du får en dedikerad kontaktperson som känner ditt företag och alltid finns tillgänglig.',
   },
   {
     icon: Shield,
     title: 'Förtroende',
-    description: 'Din finansiella information är säker hos oss',
+    description: 'Din finansiella information hanteras med absolut diskretion och säkerhet.',
   },
   {
-    icon: Zap,
-    title: 'Effektivitet',
-    description: 'Snabba lösningar utan att kompromissa med kvalitet',
+    icon: Globe,
+    title: 'Tillgänglighet',
+    description: 'Vi kommunicerar på svenska, engelska och arabiska — och arbetar digitalt i hela Sverige.',
   },
 ];
 
@@ -37,7 +37,7 @@ const About = () => {
       <div className="absolute inset-0 opacity-40" style={{
         backgroundImage: 'radial-gradient(at 40% 20%, rgba(147, 51, 234, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(167, 139, 250, 0.15) 0px, transparent 50%)',
       }} />
-      
+
       {/* Animated gradient orbs */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-gradient-to-br from-purple-200 to-violet-200 rounded-full blur-3xl opacity-30 -z-10 animate-pulse" style={{ animationDuration: '4s' }} />
       <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-gradient-to-tr from-violet-200 to-purple-200 rounded-full blur-3xl opacity-30 -z-10 animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
@@ -53,30 +53,42 @@ const About = () => {
           >
             <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">Om Oss</span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
-              Din betrodda{' '}
+              Modern redovisningsbyrå —{' '}
               <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-                finansiella partner
+                rikstäckande räckvidd
               </span>
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              På Björnsta har vårt team av experter många års erfarenhet inom redovisningsbranschen. 
-              Vi är dedikerade till att tillhandahålla personlig service till varje kund, oavsett 
-              företagets storlek eller bransch. Våra tjänster är skräddarsydda för att möta just dina 
-              specifika behov och utmaningar.
+              Björnsta Consulting Group grundades i Eskilstuna med en tydlig vision: att göra professionell
+              redovisning och ekonomisk rådgivning tillgänglig för alla svenska företag, oavsett storlek
+              eller geografisk plats. Idag arbetar vi med 110+ kunder i hela Sverige — från lokala
+              hantverkare till växande aktiebolag.
             </p>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              Vi arbetar outtröttligt för att säkerställa att dina ekonomiska behov tillgodoses med 
-              högsta precision och professionalism. Vårt mål är att bli din långsiktiga partner för 
-              finansiell framgång. Med över 90 nöjda kunder och 5 industri-partners har vi bevisat 
-              vår förmåga att leverera resultat.
+              Tack vare moderna digitala arbetsflöden behöver du aldrig vara på plats för att få
+              förstklassig service. Vi hanterar allt från löpande bokföring och skattedeklarationer
+              till komplex finansiell rådgivning — på distans, i tid, utan krångel.
             </p>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Vår expertis omfattar allt från löpande bokföring och månadsrapporter till komplex 
-              skatteplanering och finansiell rådgivning. Vi håller oss ständigt uppdaterade med de 
-              senaste regelverken och använder moderna verktyg för att effektivisera dina processer. 
-              Oavsett om du driver ett litet företag eller ett större bolag, erbjuder vi lösningar 
-              som hjälper dig att fokusera på din kärnverksamhet medan vi tar hand om ekonomin.
+              Det som skiljer oss från de stora byråerna är den personliga kontakten. Du får alltid
+              en dedikerad ansvarig som känner ditt företag på djupet. Vi kommunicerar på svenska,
+              engelska och arabiska — och vi är stolta över att ha kunder i hela landet som väljer
+              att stanna hos oss år efter år.
             </p>
+
+            {/* Trust metrics */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              {[
+                { value: '110+', label: 'Nöjda kunder' },
+                { value: '3', label: 'Språk' },
+                { value: '5+', label: 'Års erfarenhet' },
+              ].map((metric, i) => (
+                <div key={i} className="text-center bg-white rounded-xl p-4 shadow-sm border border-purple-100">
+                  <div className="text-2xl font-bold text-purple-600">{metric.value}</div>
+                  <div className="text-sm text-gray-500 mt-1">{metric.label}</div>
+                </div>
+              ))}
+            </div>
 
             {/* CTA Button */}
             <motion.a
@@ -85,7 +97,7 @@ const About = () => {
               whileTap={{ scale: 0.95 }}
               className="inline-block bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all duration-300"
             >
-              Kontakta Oss Idag
+              Kontakta oss idag
             </motion.a>
           </motion.div>
 
@@ -117,20 +129,6 @@ const About = () => {
             })}
           </motion.div>
         </div>
-
-        {/* Team Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 text-center"
-        >
-          <h3 className="text-3xl font-bold text-gray-900 mb-4">Vårt Team av Experter</h3>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Vårt dedikerade team består av certifierade redovisningskonsulter och skatterådgivare 
-            med djup expertis och passion för att hjälpa våra kunder att nå sina finansiella mål.
-          </p>
-        </motion.div>
       </div>
     </section>
   );

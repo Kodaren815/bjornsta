@@ -1,33 +1,38 @@
 import { BookOpen, Calculator, FileCheck, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
 
 const services = [
   {
     icon: BookOpen,
     title: 'Bokföring & Redovisning',
-    description: 'Professionella bokförings- och redovisningstjänster för företag av alla storlekar. Vi säkerställer att dina ekonomiska register är organiserade och korrekta.',
+    description: 'Professionell bokföring och redovisning för företag i hela Sverige. Vi hanterar löpande bokföring, månadsrapporter och årsredovisning med hög precision — oavsett om du befinner dig i Eskilstuna eller på andra sidan landet.',
     features: ['Löpande bokföring', 'Månadsrapporter', 'Årsredovisning', 'Ekonomisk rapportering'],
     color: 'from-purple-500 to-purple-600',
+    href: '#contact',
   },
   {
     icon: Calculator,
     title: 'Skattetjänster',
-    description: 'Omfattande skattetjänster för att säkerställa efterlevnad av alla skatteregler. Vi minimerar din skattebörda inom lagens ramar.',
+    description: 'Skattedeklarationer, momsredovisning och proaktiv skatteplanering för svenska företag. Vi säkerställer att du betalar rätt skatt — varken mer eller mindre — och att alla deklarationer lämnas in i tid.',
     features: ['Skattedeklarationer', 'Skatteplanering', 'Momsredovisning', 'Skatterådgivning'],
     color: 'from-violet-500 to-violet-600',
+    href: '#contact',
   },
   {
     icon: FileCheck,
-    title: 'Reskontra & Fakturahantering',
-    description: 'Komplett hantering av leverantörs- och kundreskontra samt fakturering. Vi hjälper er sätta upp betalningar till leverantörer och fakturerar åt er.',
-    features: ['Leverantörsreskontra', 'Kundreskontra', 'Fakturahantering', 'Betalningshantering'],
+    title: 'Löneadministration',
+    description: 'Komplett lönehantering som frigör tid för dig att fokusera på verksamheten. Vi hanterar löneberäkningar, arbetsgivaravgifter och rapportering till Skatteverket — säkert och i tid varje månad.',
+    features: ['Löneberäkningar', 'Arbetsgivaravgifter', 'Semesterhantering', 'Skatteverket-rapportering'],
     color: 'from-purple-600 to-purple-700',
+    href: '#contact',
   },
   {
     icon: TrendingUp,
-    title: 'Löneadministration & Rådgivning',
-    description: 'Professionell lönehantering och strategisk finansiell rådgivning för att hjälpa ditt företag att växa och nå sina ekonomiska mål.',
-    features: ['Lönehantering', 'Affärsplanering', 'Budgetering', 'Ekonomisk strategi'],
+    title: 'Rådgivning & Analys',
+    description: 'Strategisk finansiell rådgivning som hjälper ditt företag att växa. Vi analyserar dina siffror, hjälper med budgetering och affärsplanering — och finns som din dedikerade sparringpartner.',
+    features: ['Finansiell analys', 'Budgetering', 'Affärsplanering', 'Ekonomisk strategi'],
     color: 'from-violet-600 to-violet-700',
+    href: '#contact',
   },
 ];
 
@@ -36,7 +41,7 @@ const Services = () => {
     <section id="services" className="py-20 bg-gradient-to-br from-gray-50 via-purple-50/50 to-white relative overflow-hidden">
       {/* Diagonal gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-purple-100/20 to-violet-100/30 -z-10" />
-      
+
       {/* Background Elements */}
       <div className="absolute top-20 -right-20 w-96 h-96 bg-gradient-to-br from-purple-200 to-violet-200 rounded-full blur-3xl opacity-25 -z-10" />
       <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-gradient-to-tr from-violet-200 to-purple-200 rounded-full blur-3xl opacity-25 -z-10" />
@@ -46,13 +51,14 @@ const Services = () => {
         <div className="text-center mb-16">
           <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">Våra Tjänster</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
-            Komplett Finansiell{' '}
+            Komplett finansiell{' '}
             <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-              Expertis
+              expertis
             </span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Vi erbjuder ett komplett utbud av redovisnings- och skattetjänster skräddarsydda för dina behov
+            Vi erbjuder ett komplett utbud av redovisnings- och skattetjänster för företag i hela Sverige —
+            skräddarsydda efter dina behov och levererade digitalt oavsett var du befinner dig.
           </p>
         </div>
 
@@ -68,7 +74,7 @@ const Services = () => {
                 <div className="p-8 relative">
                   {/* Gradient overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-50/0 to-violet-50/0 group-hover:from-purple-50/50 group-hover:to-violet-50/50 transition-all duration-300 rounded-2xl" />
-                  
+
                   {/* Icon */}
                   <div className={`relative inline-flex p-4 rounded-xl bg-gradient-to-br ${service.color} text-white mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
                     <Icon size={32} />
@@ -83,7 +89,7 @@ const Services = () => {
                   </p>
 
                   {/* Features List */}
-                  <ul className="space-y-3">
+                  <ul className="space-y-3 mb-6">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center space-x-2 text-gray-700">
                         <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.color}`} />
@@ -91,6 +97,14 @@ const Services = () => {
                       </li>
                     ))}
                   </ul>
+
+                  <Link
+                    prefetch={false}
+                    href={service.href}
+                    className="relative inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors"
+                  >
+                    Boka kostnadsfri konsultation →
+                  </Link>
                 </div>
 
                 {/* Bottom Border Animation */}

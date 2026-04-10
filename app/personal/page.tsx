@@ -227,6 +227,7 @@ export default function PersonalDashboard() {
   const [filterFreq, setFilterFreq] = useState('Alla')
 
   const [showAddModal, setShowAddModal] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState<ClientRow | null>(null)
   const [showExportMenu, setShowExportMenu] = useState(false)
   const [showJsonImportModal, setShowJsonImportModal] = useState(false)
   const [showExcelImportModal, setShowExcelImportModal] = useState(false)
@@ -549,6 +550,18 @@ export default function PersonalDashboard() {
     setData(prev => [...prev, ...(inserted ?? []) as ClientRow[]])
     setShowAddModal(false)
     setNewClientForm({ skr: 'AB', namn: '', ansvarig: '', bransch: '', sprak: '', freq: 'Månad', bank: '', mejl: '' })
+  }
+
+  // ── Delete client (current month only)
+  const deleteClient = async (row: ClientRow) => {
+    setData(prev => prev.filter(r => r.id !== row.id))
+    const { error: deleteErr } = await supabase
+      .from('client_status').delete().eq('id', row.id)
+    if (deleteErr) {
+      setData(prev => [...prev, row].sort((a, b) => a.client_id - b.client_id))
+      alert('Fel vid borttagning: ' + deleteErr.message)
+    }
+    setDeleteTarget(null)
   }
 
   // ── Close month (Fix 2)
@@ -915,6 +928,7 @@ export default function PersonalDashboard() {
                   <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Ansvarig</th>
                   <th className="px-3 py-3 text-left text-purple-300/70 font-medium text-xs min-w-[180px]">Kommentar</th>
                   <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs min-w-[160px]">Uppdaterad</th>
+                  {!isReadOnly && <th className="px-2 py-3 w-8" />}
                 </tr>
               </thead>
               <tbody>
@@ -977,6 +991,19 @@ export default function PersonalDashboard() {
                       <td className="px-3 py-2 text-purple-300/40 text-[11px] whitespace-nowrap">
                         {formatTimestamp(row.updated_at, row.updated_by)}
                       </td>
+                      {!isReadOnly && (
+                        <td className="px-2 py-2 text-center">
+                          <button
+                            onClick={() => setDeleteTarget(row)}
+                            title={`Ta bort ${row.namn} från ${selectedMonth}`}
+                            className="w-6 h-6 rounded flex items-center justify-center text-red-400/40 hover:text-red-400 hover:bg-red-500/10 transition-all mx-auto"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   )
                 })}
@@ -1129,6 +1156,36 @@ export default function PersonalDashboard() {
               <button onClick={addClient} disabled={!newClientForm.namn.trim()}
                 className="px-4 py-2 text-sm bg-purple-600/40 hover:bg-purple-600/60 border border-purple-500/30 text-white rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                 Lägg till
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* ── Delete Client Confirmation Modal ── */}
+      {deleteTarget && (
+        <Modal title="Ta bort klient?" onClose={() => setDeleteTarget(null)}>
+          <div className="space-y-4">
+            <p className="text-purple-200/80 text-sm">
+              Ta bort <strong className="text-white">{deleteTarget.namn}</strong> från{' '}
+              <strong className="text-white">{selectedMonth}</strong>?
+              Detta går inte att ångra.
+            </p>
+            <div className="bg-amber-500/10 border border-amber-400/20 rounded-lg px-3 py-2 text-amber-300/70 text-xs">
+              Borttagningen påverkar bara den här månaden. Andra månader är oförändrade.
+            </div>
+            <div className="flex gap-2 justify-end">
+              <button onClick={() => setDeleteTarget(null)} className="px-4 py-2 text-sm text-purple-300 hover:text-white transition-colors">
+                Avbryt
+              </button>
+              <button
+                onClick={() => deleteClient(deleteTarget)}
+                className="px-4 py-2 text-sm bg-red-600/30 hover:bg-red-600/50 border border-red-500/30 text-red-200 rounded-lg transition-all flex items-center gap-1.5"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+                Ta bort
               </button>
             </div>
           </div>

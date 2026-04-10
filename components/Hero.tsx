@@ -1,9 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Globe } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const Hero = () => {
@@ -13,7 +12,7 @@ const Hero = () => {
       {/* Animated gradient orbs */}
       <div className="absolute top-20 right-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" />
       <div className="absolute bottom-20 left-20 w-96 h-96 bg-violet-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }} />
-      
+
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -22,14 +21,13 @@ const Hero = () => {
         }} />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-0">
+        <div className="flex flex-col items-center text-center">
           <motion.div
-            initial={prefersReducedMotion ? undefined : { opacity: 0, x: -50 }}
-            animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
+            initial={prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
+            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
+            className="w-full"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -38,7 +36,7 @@ const Hero = () => {
               className="inline-block mb-6"
             >
               <span className="bg-gradient-to-r from-purple-100 to-violet-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold">
-                Professionell Redovisningsbyrå i Eskilstuna
+                Redovisningsbyrå i Eskilstuna – kunder i hela Sverige
               </span>
             </motion.div>
 
@@ -48,9 +46,9 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
             >
-              Redovisningsbyrå i Eskilstuna -{' '}
+              Redovisningsbyrå i Eskilstuna med kunder i{' '}
               <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-                Bokföring & Skattetjänster
+                hela Sverige
               </span>
             </motion.h1>
 
@@ -58,22 +56,47 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0"
+              className="text-lg text-gray-600 mb-6 max-w-xl mx-auto"
             >
-              Björnsta erbjuder expertis inom bokföring, redovisning och skattetjänster i Eskilstuna. 
-              Vi säkerställer finansiell noggrannhet och efterlevnad för ditt företag med moderna verktyg 
-              och personlig service. Låt oss ta hand om din ekonomi så du kan fokusera på att växa ditt företag.
+              Vi arbetar digitalt och ger dig personlig service var du än befinner dig i Sverige.
+              Björnsta erbjuder professionell bokföring, redovisning och skattetjänster — på svenska,
+              engelska och arabiska.
             </motion.p>
+
+            {/* Trust stats row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="flex flex-wrap gap-4 justify-center mb-8"
+            >
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+                <span className="font-bold text-purple-600">110+</span>
+                <span className="text-gray-600 text-sm">kunder</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+                <span className="font-bold text-purple-600">Sverige</span>
+                <span className="text-gray-600 text-sm">rikstäckande</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+                <Globe size={16} className="text-purple-600" />
+                <span className="text-gray-600 text-sm">Svenska / English / العربية</span>
+              </div>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="space-y-4 mb-8"
+              className="space-y-3 mb-8"
             >
-              {['5+ års erfarenhet i branschen', '60+ nöjda kunder', 'Certifierade redovisningsexperter'].map((item, index) => (
-                <div key={index} className="flex items-center justify-center lg:justify-start space-x-2">
-                  <CheckCircle className="text-purple-600" size={20} />
+              {[
+                '5+ års erfarenhet i branschen',
+                '110+ nöjda kunder i hela Sverige',
+                'Personlig kontaktperson — certifierade experter',
+              ].map((item, index) => (
+                <div key={index} className="flex items-center justify-center space-x-2">
+                  <CheckCircle className="text-purple-600 flex-shrink-0" size={20} />
                   <span className="text-gray-700">{item}</span>
                 </div>
               ))}
@@ -83,14 +106,14 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link
                 prefetch={false}
                 href="#contact"
                 className="group bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
               >
-                <span className="font-semibold">Boka Konsultation</span>
+                <span className="font-semibold">Boka konsultation</span>
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
               </Link>
               <Link
@@ -98,47 +121,8 @@ const Hero = () => {
                 href="#services"
                 className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-4 rounded-lg hover:bg-purple-50 transition-all duration-300 font-semibold text-center"
               >
-                Utforska Tjänster
+                Se våra tjänster
               </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative"
-          >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-violet-600/20 z-10" />
-              <Image
-                src="/hero-image.webp"
-                alt="Björnsta Consulting Group Team"
-                width={800}
-                height={600}
-                className="w-full h-auto object-cover"
-                priority
-                sizes="(min-width: 1024px) 50vw, 90vw"
-              />
-            </div>
-
-            {/* Floating Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl hidden md:block"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="bg-gradient-to-br from-purple-600 to-violet-600 text-white w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl">
-                  60+
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Nöjda Kunder</p>
-                  <p className="text-sm text-gray-600">Och växande</p>
-                </div>
-              </div>
             </motion.div>
           </motion.div>
         </div>

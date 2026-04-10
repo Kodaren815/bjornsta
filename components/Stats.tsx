@@ -3,7 +3,7 @@ import { Award, Users, Briefcase, TrendingUp } from 'lucide-react';
 const stats = [
   { icon: Award, value: '5+', label: 'År av Erfarenhet', color: 'from-purple-500 to-purple-600' },
   { icon: Users, value: '3+', label: 'Experter', color: 'from-violet-500 to-violet-600' },
-  { icon: Briefcase, value: '60+', label: 'Nöjda Kunder', color: 'from-purple-600 to-purple-700' },
+  { icon: Briefcase, value: '110+', label: 'Nöjda Kunder i hela Sverige', color: 'from-purple-600 to-purple-700' },
   { icon: TrendingUp, value: '5+', label: 'Industri Partners', color: 'from-violet-600 to-violet-700' },
 ];
 

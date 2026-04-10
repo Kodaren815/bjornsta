@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
@@ -19,10 +19,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-  { href: '#home', label: 'Hem' },
-  { href: '#services', label: 'Tjänster' },
-  { href: '#about', label: 'Om Oss' },
-  { href: '#contact', label: 'Kontakt' },
+    { href: '#home', label: 'Hem' },
+    { href: '#services', label: 'Tjänster' },
+    { href: '#about', label: 'Om Oss' },
+    { href: '#faq', label: 'FAQ' },
+    { href: '#contact', label: 'Kontakt' },
   ];
 
   return (
@@ -45,7 +46,7 @@ const Navbar = () => {
             >
               <Image
                 src="/PDF_file_page-0001-removebg-preview.png"
-                alt="Björnsta"
+                alt="Björnsta Consulting Group"
                 width={310}
                 height={134}
                 priority
@@ -55,7 +56,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link, index) => (
               <motion.div
                 key={link.href}
@@ -66,23 +67,39 @@ const Navbar = () => {
                 <Link
                   prefetch={false}
                   href={link.href}
-                  className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium"
+                  className="text-gray-700 hover:text-purple-600 transition-colors duration-200 font-medium text-sm"
                 >
                   {link.label}
                 </Link>
               </motion.div>
             ))}
+
+            {/* Language switcher */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex items-center gap-1 border border-purple-200 rounded-lg px-2 py-1"
+            >
+              <Globe size={14} className="text-purple-600" />
+              <Link prefetch={false} href="/" className="text-xs font-semibold text-purple-600 hover:text-purple-700 px-1">SV</Link>
+              <span className="text-gray-300">|</span>
+              <Link prefetch={false} href="/en" className="text-xs font-medium text-gray-500 hover:text-purple-600 px-1">EN</Link>
+              <span className="text-gray-300">|</span>
+              <Link prefetch={false} href="/ar" className="text-xs font-medium text-gray-500 hover:text-purple-600 px-1">AR</Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
             >
               <Link
                 prefetch={false}
                 href="#contact"
-                className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200"
+                className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-5 py-2.5 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200 text-sm font-semibold"
               >
-                Kom Igång
+                Boka konsultation
               </Link>
             </motion.div>
           </div>
@@ -91,6 +108,7 @@ const Navbar = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-gray-700 hover:text-purple-600 transition-colors"
+            aria-label="Öppna meny"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -119,13 +137,18 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              <div className="flex gap-3 pt-2">
+                <Link prefetch={false} href="/" onClick={() => setIsOpen(false)} className="flex-1 text-center border border-purple-200 text-purple-700 py-2 rounded-lg text-sm font-semibold">🇸🇪 SV</Link>
+                <Link prefetch={false} href="/en" onClick={() => setIsOpen(false)} className="flex-1 text-center border border-gray-200 text-gray-600 py-2 rounded-lg text-sm font-medium">🇬🇧 EN</Link>
+                <Link prefetch={false} href="/ar" onClick={() => setIsOpen(false)} className="flex-1 text-center border border-gray-200 text-gray-600 py-2 rounded-lg text-sm font-medium">🇸🇦 AR</Link>
+              </div>
               <Link
                 prefetch={false}
                 href="#contact"
                 onClick={() => setIsOpen(false)}
-                className="block text-center bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-200"
+                className="block text-center bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-200 font-semibold"
               >
-                Kom Igång
+                Boka konsultation
               </Link>
             </div>
           </motion.div>

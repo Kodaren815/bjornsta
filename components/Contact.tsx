@@ -11,7 +11,7 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const form = e.currentTarget;
     const formData = new FormData(form);
 
@@ -38,13 +38,13 @@ const Contact = () => {
   return (
     <section id="contact" className="py-20 bg-gradient-to-tr from-purple-50 via-white to-violet-50 relative overflow-hidden">
       {/* Grid pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: 'linear-gradient(to right, rgba(147, 51, 234, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(147, 51, 234, 0.1) 1px, transparent 1px)',
           backgroundSize: '60px 60px'
         }} />
       </div>
-      
+
       {/* Background Elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-300 to-violet-300 rounded-full blur-3xl opacity-20 -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-violet-300 to-purple-300 rounded-full blur-3xl opacity-20 -z-10" />
@@ -60,13 +60,14 @@ const Contact = () => {
         >
           <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">Kontakta Oss</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
-            Låt oss ta din ekonomi till{' '}
+            Redo att ta nästa steg för{' '}
             <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-              nästa nivå
+              ditt företag?
             </span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Kontakta oss idag för en kostnadsfri konsultation och upptäck hur vi kan hjälpa ditt företag
+            Boka en kostnadsfri konsultation. Vi återkommer inom 24 timmar och hjälper dig att
+            komma igång — oavsett var i Sverige ditt företag befinner sig.
           </p>
         </motion.div>
 
@@ -78,27 +79,27 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             className="bg-white rounded-2xl shadow-xl p-8"
           >
-            <form 
-              name="contact" 
-              method="POST" 
+            <form
+              name="contact"
+              method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
-              onSubmit={handleSubmit} 
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* Hidden field for Netlify */}
               <input type="hidden" name="form-name" value="contact" />
-              
+
               {/* Honeypot field for spam protection */}
               <div className="hidden">
                 <label>
-                  Don't fill this out if you're human: <input name="bot-field" />
+                  Don&apos;t fill this out if you&apos;re human: <input name="bot-field" />
                 </label>
               </div>
 
               {isSubmitted && (
                 <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                  Tack för ditt meddelande! Vi återkommer inom kort.
+                  Tack för ditt meddelande! Vi återkommer inom 24 timmar.
                 </div>
               )}
 
@@ -113,6 +114,19 @@ const Contact = () => {
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                   placeholder="Ditt fullständiga namn"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="company" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Företagsnamn
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  placeholder="Ditt företag AB"
                 />
               </div>
 
@@ -144,6 +158,40 @@ const Contact = () => {
               </div>
 
               <div>
+                <label htmlFor="language" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Föredragen kommunikation
+                </label>
+                <select
+                  id="language"
+                  name="language"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white"
+                >
+                  <option value="">Välj språk</option>
+                  <option value="svenska">Svenska</option>
+                  <option value="english">English</option>
+                  <option value="arabic">العربية</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Jag är intresserad av
+                </label>
+                <select
+                  id="service"
+                  name="service"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white"
+                >
+                  <option value="">Välj tjänst</option>
+                  <option value="bokforing">Bokföring & Redovisning</option>
+                  <option value="skatt">Skattetjänster</option>
+                  <option value="lon">Löneadministration</option>
+                  <option value="radgivning">Rådgivning & Analys</option>
+                  <option value="allt">Komplett paket</option>
+                </select>
+              </div>
+
+              <div>
                 <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
                   Meddelande *
                 </label>
@@ -151,9 +199,9 @@ const Contact = () => {
                   id="message"
                   name="message"
                   required
-                  rows={5}
+                  rows={4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
-                  placeholder="Hur kan vi hjälpa dig?"
+                  placeholder="Berätta kort om ditt företag och vad du behöver hjälp med"
                 />
               </div>
 
@@ -163,7 +211,7 @@ const Contact = () => {
                 whileTap={{ scale: 0.98 }}
                 className="w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
               >
-                <span>Skicka Meddelande</span>
+                <span>Skicka meddelande</span>
                 <Send size={20} />
               </motion.button>
             </form>
@@ -185,7 +233,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold mb-1">E-post</p>
-                    <a href="mailto:fakhri.shehab@bjornstaconsulting.com" className="text-purple-100 hover:text-white transition-colors">
+                    <a href="mailto:fakhri.shehab@bjornstaconsulting.com" className="text-purple-100 hover:text-white transition-colors break-all">
                       fakhri.shehab@bjornstaconsulting.com
                     </a>
                   </div>
@@ -208,10 +256,11 @@ const Contact = () => {
                     <MapPin className="text-white" size={24} />
                   </div>
                   <div>
-                    <p className="font-semibold mb-1">Adress</p>
+                    <p className="font-semibold mb-1">Kontor</p>
                     <p className="text-purple-100">
                       Heljestrandsgatan 5A<br />
-                      633 44 Eskilstuna
+                      633 44 Eskilstuna<br />
+                      <span className="text-purple-200 text-sm">Kunder i hela Sverige</span>
                     </p>
                   </div>
                 </div>
@@ -222,13 +271,19 @@ const Contact = () => {
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Öppettider</h3>
               <div className="space-y-3 text-gray-600">
                 <div className="flex justify-between">
-                  <span className="font-medium">Måndag - Fredag</span>
-                  <span>09:00 - 17:00</span>
+                  <span className="font-medium">Måndag – Fredag</span>
+                  <span>09:00 – 17:00</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-medium">Lördag - Söndag</span>
+                  <span className="font-medium">Lördag – Söndag</span>
                   <span>Stängt</span>
                 </div>
+              </div>
+              <div className="mt-6 p-4 bg-purple-50 rounded-lg">
+                <p className="text-sm text-purple-700 font-medium">
+                  Vi svarar på e-post inom 24 timmar på vardagar. Brådskande ärenden hanteras
+                  via telefon under kontorstid.
+                </p>
               </div>
             </div>
           </motion.div>
