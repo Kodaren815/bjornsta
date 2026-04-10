@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   if (pathname.startsWith('/personal') && !pathname.startsWith('/personal/login')) {
     const cookie = request.cookies.get('bjornsta_auth')
