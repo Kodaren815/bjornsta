@@ -38,7 +38,7 @@ const Contact = () => {
   return (
     <section id="contact" className="py-20 bg-gradient-to-tr from-purple-50 via-white to-violet-50 relative overflow-hidden">
       {/* Grid pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute inset-0" style={{
           backgroundImage: 'linear-gradient(to right, rgba(147, 51, 234, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(147, 51, 234, 0.1) 1px, transparent 1px)',
           backgroundSize: '60px 60px'

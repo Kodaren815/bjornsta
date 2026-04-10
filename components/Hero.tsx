@@ -138,7 +138,7 @@ const Hero = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-violet-600/20 z-10" />
               <Image
-                src="/hero-image.webp"
+                src="/hero-image.jpg"
                 alt="Björnsta Consulting Group – redovisningsbyrå i Eskilstuna med kunder i hela Sverige"
                 width={800}
                 height={600}
