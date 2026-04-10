@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Globe } from 'lucide-react';
@@ -22,14 +21,13 @@ const Hero = () => {
         }} />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-0">
+        <div className="flex flex-col items-center text-center">
           <motion.div
-            initial={prefersReducedMotion ? undefined : { opacity: 0, x: -50 }}
-            animate={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
+            initial={prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
+            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
+            className="w-full"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -58,7 +56,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-gray-600 mb-6 max-w-xl mx-auto lg:mx-0"
+              className="text-lg text-gray-600 mb-6 max-w-xl mx-auto"
             >
               Vi arbetar digitalt och ger dig personlig service var du än befinner dig i Sverige.
               Björnsta erbjuder professionell bokföring, redovisning och skattetjänster — på svenska,
@@ -70,7 +68,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45 }}
-              className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8"
+              className="flex flex-wrap gap-4 justify-center mb-8"
             >
               <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
                 <span className="font-bold text-purple-600">110+</span>
@@ -97,7 +95,7 @@ const Hero = () => {
                 '110+ nöjda kunder i hela Sverige',
                 'Personlig kontaktperson — certifierade experter',
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-center lg:justify-start space-x-2">
+                <div key={index} className="flex items-center justify-center space-x-2">
                   <CheckCircle className="text-purple-600 flex-shrink-0" size={20} />
                   <span className="text-gray-700">{item}</span>
                 </div>
@@ -108,7 +106,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link
                 prefetch={false}
@@ -125,45 +123,6 @@ const Hero = () => {
               >
                 Se våra tjänster
               </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative"
-          >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-violet-600/20 z-10" />
-              <Image
-                src="/hero-image.jpg"
-                alt="Björnsta Consulting Group – redovisningsbyrå i Eskilstuna med kunder i hela Sverige"
-                width={800}
-                height={600}
-                className="w-full h-auto object-cover"
-                priority
-                sizes="(min-width: 1024px) 50vw, 90vw"
-              />
-            </div>
-
-            {/* Floating Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl hidden md:block"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="bg-gradient-to-br from-purple-600 to-violet-600 text-white w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl">
-                  110+
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Nöjda Kunder</p>
-                  <p className="text-sm text-gray-600">I hela Sverige</p>
-                </div>
-              </div>
             </motion.div>
           </motion.div>
         </div>
