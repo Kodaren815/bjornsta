@@ -74,11 +74,7 @@ const Hero = () => {
                 <span className="font-bold text-purple-600">110+</span>
                 <span className="text-gray-600 text-sm">kunder</span>
               </div>
-              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
-                <span className="font-bold text-purple-600">Sverige</span>
-                <span className="text-gray-600 text-sm">rikstäckande</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+<div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
                 <Globe size={16} className="text-purple-600" />
                 <span className="text-gray-600 text-sm">Svenska / English / العربية</span>
               </div>

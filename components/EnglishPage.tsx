@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Globe, BookOpen, Calculator, FileCheck, TrendingUp, Mail, Phone, MapPin } from 'lucide-react';
 import { useState } from 'react';
@@ -77,10 +76,16 @@ export default function EnglishPage() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     try {
-      const res = await fetch('/', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.get('name'),
+          company: formData.get('company'),
+          email: formData.get('email'),
+          service: formData.get('service'),
+          message: formData.get('message'),
+        }),
       });
       if (res.ok) {
         setSubmitted(true);
@@ -106,13 +111,13 @@ export default function EnglishPage() {
         <div className="absolute top-20 right-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" />
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-violet-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }} />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="flex flex-col items-center text-center">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center lg:text-left"
+              className="w-full"
             >
               <div className="inline-block mb-6">
                 <span className="bg-gradient-to-r from-purple-100 to-violet-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold">
@@ -127,21 +132,17 @@ export default function EnglishPage() {
                 </span>
               </h1>
 
-              <p className="text-lg text-gray-600 mb-6 max-w-xl mx-auto lg:mx-0">
+              <p className="text-lg text-gray-600 mb-6 max-w-xl mx-auto">
                 Björnsta Consulting Group is based in Eskilstuna and works with 110+ businesses across
                 Sweden. We provide bookkeeping, tax services, and payroll — delivered digitally, with
                 personal service in Swedish, English, and Arabic.
               </p>
 
               {/* Trust stats */}
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-start mb-8">
+              <div className="flex flex-wrap gap-4 justify-center mb-8">
                 <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
                   <span className="font-bold text-purple-600">110+</span>
                   <span className="text-gray-600 text-sm">clients</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
-                  <span className="font-bold text-purple-600">Sweden</span>
-                  <span className="text-gray-600 text-sm">nationwide</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
                   <Globe size={16} className="text-purple-600" />
@@ -155,14 +156,14 @@ export default function EnglishPage() {
                   '110+ satisfied clients across Sweden',
                   'Dedicated contact person — certified experts',
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-center lg:justify-start gap-2">
+                  <div key={i} className="flex items-center justify-center gap-2">
                     <CheckCircle className="text-purple-600 flex-shrink-0" size={20} />
                     <span className="text-gray-700">{item}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="#contact-en"
                   className="group bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
@@ -176,37 +177,6 @@ export default function EnglishPage() {
                 >
                   Our services
                 </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative"
-            >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-violet-600/20 z-10" />
-                <Image
-                  src="/hero-image.webp"
-                  alt="Björnsta Consulting Group — accounting firm in Sweden serving clients nationwide"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto object-cover"
-                  priority
-                  sizes="(min-width: 1024px) 50vw, 90vw"
-                />
-              </div>
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl hidden md:block">
-                <div className="flex items-center gap-4">
-                  <div className="bg-gradient-to-br from-purple-600 to-violet-600 text-white w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl">
-                    110+
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Satisfied clients</p>
-                    <p className="text-sm text-gray-600">Across Sweden</p>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </div>

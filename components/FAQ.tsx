@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     question: 'Hur mycket kostar era tjänster?',
-    answer: 'Priset beror på företagets storlek och vilka tjänster du behöver. Vi ger alltid en tydlig och fast offert efter vår första konsultation — inga dolda avgifter. Kontakta oss på 076-060 20 88 eller via formuläret nedan så berättar vi mer.',
+    answer: 'Vår prissättning är transparent och baseras på antal verifikationer. Vi tar 675 kr per timme (exkl. moms) och på en timme hanterar vi normalt cirka 25 verifikationer. Det innebär att du alltid vet vad du betalar för — utan dolda avgifter eller fasta paket.',
   },
   {
     question: 'Vad händer om Skatteverket granskar mitt företag?',

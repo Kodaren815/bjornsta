@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowLeft, Globe, BookOpen, Calculator, FileCheck, TrendingUp, Mail, Phone, MapPin } from 'lucide-react';
 import { useState } from 'react';
@@ -73,10 +72,16 @@ export default function ArabicPage() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     try {
-      const res = await fetch('/', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.get('name'),
+          company: formData.get('company'),
+          email: formData.get('email'),
+          service: formData.get('service'),
+          message: formData.get('message'),
+        }),
       });
       if (res.ok) {
         setSubmitted(true);
@@ -90,122 +95,116 @@ export default function ArabicPage() {
 
   return (
     <div dir="rtl" lang="ar" className="min-h-screen">
-      {/* Language switcher */}
-      <div className="fixed top-[82px] left-4 z-40 flex gap-2">
-        <Link href="/" className="bg-white/90 border border-purple-200 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-purple-50 transition-colors shadow-sm">SV</Link>
-        <Link href="/en" className="bg-white/90 border border-purple-200 text-purple-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-purple-50 transition-colors shadow-sm">EN</Link>
-        <span className="bg-purple-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">AR</span>
-      </div>
+      {/* Arabic Navbar */}
+      <nav className="fixed top-20 left-0 right-0 z-40 bg-white/95 backdrop-blur-md shadow-md border-t border-purple-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" dir="rtl">
+          <div className="flex items-center justify-between h-12">
+            <div className="hidden md:flex items-center gap-5">
+              {[
+                { href: '#home', label: 'الرئيسية' },
+                { href: '#services-ar', label: 'الخدمات' },
+                { href: '#about-ar', label: 'من نحن' },
+                { href: '#faq-ar', label: 'الأسئلة الشائعة' },
+                { href: '#contact-ar', label: 'اتصل بنا' },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-gray-700 hover:text-purple-600 transition-colors text-sm font-medium"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex items-center gap-3">
+              <Link href="/" className="text-xs font-medium text-gray-500 hover:text-purple-600 transition-colors">SV</Link>
+              <Link href="/en" className="text-xs font-medium text-gray-500 hover:text-purple-600 transition-colors">EN</Link>
+              <span className="text-xs font-bold text-purple-600 border border-purple-300 rounded-full px-2 py-0.5">AR</span>
+              <Link
+                href="#contact-ar"
+                className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:shadow-md transition-all"
+              >
+                احجز استشارة
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-bl from-purple-50 via-white to-violet-50 pt-32">
+      <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-bl from-purple-50 via-white to-violet-50 pt-32">
         <div className="absolute top-20 left-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" />
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-violet-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '2s' }} />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center lg:text-right"
-            >
-              <div className="inline-block mb-6">
-                <span className="bg-gradient-to-r from-purple-100 to-violet-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold">
-                  شركة محاسبة في السويد – مقرنا في إسكيلستونا
-                </span>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-block mb-6">
+              <span className="bg-gradient-to-r from-purple-100 to-violet-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold">
+                شركة محاسبة في السويد – مقرنا في إسكيلستونا
+              </span>
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              شركة محاسبة في السويد –{' '}
+              <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
+                نخدم العملاء في جميع أنحاء السويد
+              </span>
+            </h1>
+
+            <p className="text-lg text-gray-600 mb-6 max-w-xl mx-auto">
+              مجموعة بيورنستا للاستشارات مقرها في إسكيلستونا وتعمل مع أكثر من 110 شركة في جميع
+              أنحاء السويد. نقدم خدمات المحاسبة والضرائب والرواتب — رقمياً مع خدمة شخصية باللغة
+              العربية والسويدية والإنجليزية.
+            </p>
+
+            <div className="flex flex-wrap gap-4 justify-center mb-8">
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+                <span className="font-bold text-purple-600">110+</span>
+                <span className="text-gray-600 text-sm">عميل</span>
               </div>
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+                <span className="font-bold text-purple-600">السويد</span>
+                <span className="text-gray-600 text-sm">على المستوى الوطني</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+                <Globe size={16} className="text-purple-600" />
+                <span className="text-gray-600 text-sm">عربي / EN / SV</span>
+              </div>
+            </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                شركة محاسبة في السويد –{' '}
-                <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
-                  نخدم العملاء في جميع أنحاء السويد
-                </span>
-              </h1>
-
-              <p className="text-lg text-gray-600 mb-6 max-w-xl mx-auto lg:mr-0 lg:ml-auto">
-                مجموعة بيورنستا للاستشارات مقرها في إسكيلستونا وتعمل مع أكثر من 110 شركة في جميع
-                أنحاء السويد. نقدم خدمات المحاسبة والضرائب والرواتب — رقمياً مع خدمة شخصية باللغة
-                العربية والسويدية والإنجليزية. محاسب في السويد، موحاسب، mo7aseb.
-              </p>
-
-              {/* Trust stats */}
-              <div className="flex flex-wrap gap-4 justify-center lg:justify-end mb-8">
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
-                  <span className="font-bold text-purple-600">110+</span>
-                  <span className="text-gray-600 text-sm">عميل</span>
+            <div className="space-y-3 mb-8">
+              {[
+                'أكثر من 5 سنوات من الخبرة في المجال',
+                '110+ عميل راضٍ في جميع أنحاء السويد',
+                'جهة اتصال مخصصة — خبراء معتمدون',
+              ].map((item, i) => (
+                <div key={i} className="flex items-center justify-center gap-2">
+                  <span className="text-gray-700">{item}</span>
+                  <CheckCircle className="text-purple-600 flex-shrink-0" size={20} />
                 </div>
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
-                  <span className="font-bold text-purple-600">السويد</span>
-                  <span className="text-gray-600 text-sm">على المستوى الوطني</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
-                  <Globe size={16} className="text-purple-600" />
-                  <span className="text-gray-600 text-sm">عربي / EN / SV</span>
-                </div>
-              </div>
+              ))}
+            </div>
 
-              <div className="space-y-3 mb-8">
-                {[
-                  'أكثر من 5 سنوات من الخبرة في المجال',
-                  '110+ عميل راضٍ في جميع أنحاء السويد',
-                  'جهة اتصال مخصصة — خبراء معتمدون',
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-center lg:justify-end gap-2">
-                    <span className="text-gray-700">{item}</span>
-                    <CheckCircle className="text-purple-600 flex-shrink-0" size={20} />
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-end">
-                <Link
-                  href="#contact-ar"
-                  className="group bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  <ArrowLeft className="group-hover:-translate-x-1 transition-transform" size={20} />
-                  <span className="font-semibold">احجز استشارة مجانية</span>
-                </Link>
-                <Link
-                  href="#services-ar"
-                  className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-4 rounded-lg hover:bg-purple-50 transition-all duration-300 font-semibold text-center"
-                >
-                  خدماتنا
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative"
-            >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-tl from-purple-600/20 to-violet-600/20 z-10" />
-                <Image
-                  src="/hero-image.webp"
-                  alt="مجموعة بيورنستا للاستشارات — شركة محاسبة في السويد تخدم العملاء في جميع أنحاء البلاد"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto object-cover"
-                  priority
-                  sizes="(min-width: 1024px) 50vw, 90vw"
-                />
-              </div>
-              <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl hidden md:block">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <p className="font-semibold text-gray-900">عملاء راضون</p>
-                    <p className="text-sm text-gray-600">في جميع أنحاء السويد</p>
-                  </div>
-                  <div className="bg-gradient-to-br from-purple-600 to-violet-600 text-white w-12 h-12 rounded-lg flex items-center justify-center font-bold text-xl">
-                    110+
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="#contact-ar"
+                className="group bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <ArrowLeft className="group-hover:-translate-x-1 transition-transform" size={20} />
+                <span className="font-semibold">احجز استشارة مجانية</span>
+              </Link>
+              <Link
+                href="#services-ar"
+                className="bg-white text-purple-600 border-2 border-purple-600 px-8 py-4 rounded-lg hover:bg-purple-50 transition-all duration-300 font-semibold text-center"
+              >
+                خدماتنا
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -263,7 +262,7 @@ export default function ArabicPage() {
       </section>
 
       {/* About */}
-      <section className="py-20 bg-white">
+      <section id="about-ar" className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">من نحن</span>
           <h2 className="text-4xl font-bold text-gray-900 mt-4 mb-6">
@@ -278,9 +277,8 @@ export default function ArabicPage() {
             ستحصل دائماً على جهة اتصال مخصصة تعرف أعمالك جيداً.
           </p>
           <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-            نخدم العملاء باللغتين السويدية والعربية والإنجليزية — مما يجعلنا الخيار الطبيعي لرجال الأعمال
+            نخدم العملاء بثلاث لغات: السويدية والعربية والإنجليزية — مما يجعلنا الخيار الطبيعي لرجال الأعمال
             العرب والشركات ذات الملكية الأجنبية والمنشآت التي تحتاج إلى دعم محاسبي متعدد اللغات في السويد.
-            محاسب في السويد، موحاسب، mo7aseb — نحن هنا لخدمتك.
           </p>
           <div className="grid grid-cols-3 gap-6 max-w-lg mx-auto mb-8">
             {[
@@ -301,7 +299,7 @@ export default function ArabicPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 bg-gradient-to-br from-white via-purple-50/30 to-white">
+      <section id="faq-ar" className="py-20 bg-gradient-to-br from-white via-purple-50/30 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">الأسئلة الشائعة</span>
@@ -352,16 +350,9 @@ export default function ArabicPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="bg-white rounded-2xl shadow-xl p-8 order-2 lg:order-1">
               <form
-                name="contact-ar"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
                 className="space-y-5"
               >
-                <input type="hidden" name="form-name" value="contact-ar" />
-                <div className="hidden"><input name="bot-field" /></div>
-
                 {submitted && (
                   <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-right">
                     شكراً لرسالتك! سنرد عليك خلال 24 ساعة.
@@ -438,6 +429,30 @@ export default function ArabicPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cities */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-500 text-sm mb-4">مدن نخدمها في أنحاء السويد</p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {[
+              { href: '/eskilstuna', ar: 'إسكيلستونا', sv: 'Eskilstuna' },
+              { href: '/vasteras', ar: 'فيسترآس', sv: 'Västerås' },
+              { href: '/stockholm', ar: 'ستوكهولم', sv: 'Stockholm' },
+              { href: '/orebro', ar: 'أوريبرو', sv: 'Örebro' },
+              { href: '/uppsala', ar: 'أوبسالا', sv: 'Uppsala' },
+            ].map((city) => (
+              <Link
+                key={city.href}
+                href={city.href}
+                className="text-purple-600 hover:text-purple-700 font-medium border border-purple-200 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors text-sm"
+              >
+                {city.ar} <span className="text-gray-400 text-xs">({city.sv})</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

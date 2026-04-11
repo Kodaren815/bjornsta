@@ -16,10 +16,18 @@ const Contact = () => {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('/', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.get('name'),
+          company: formData.get('company'),
+          email: formData.get('email'),
+          phone: formData.get('phone'),
+          language: formData.get('language'),
+          service: formData.get('service'),
+          message: formData.get('message'),
+        }),
       });
 
       if (response.ok) {
