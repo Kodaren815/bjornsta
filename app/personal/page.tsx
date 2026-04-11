@@ -228,6 +228,7 @@ export default function PersonalDashboard() {
 
   const [showAddModal, setShowAddModal] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<ClientRow | null>(null)
+  const [deleteMonthTarget, setDeleteMonthTarget] = useState<string | null>(null)
   const [showExportMenu, setShowExportMenu] = useState(false)
   const [showJsonImportModal, setShowJsonImportModal] = useState(false)
   const [showExcelImportModal, setShowExcelImportModal] = useState(false)
@@ -564,6 +565,19 @@ export default function PersonalDashboard() {
     setDeleteTarget(null)
   }
 
+  // ── Delete month (permanent)
+  const deleteMonth = async (month: string) => {
+    const { error: deleteErr } = await supabase.from('client_status').delete().eq('month', month)
+    if (deleteErr) { alert('Fel vid radering av månad: ' + deleteErr.message); return }
+    const newMonths = months.filter(m => m !== month)
+    const sorted = sortMonths(newMonths)
+    setMonths(sorted)
+    setClosedMonths(prev => { const next = new Set(prev); next.delete(month); return next })
+    const newSelected = sorted.length > 0 ? sorted[sorted.length - 1] : BACKLOG_MONTH
+    setSelectedMonth(newSelected)
+    setDeleteMonthTarget(null)
+  }
+
   // ── Close month (Fix 2)
   const closeMonth = async (month: string) => {
     setClosingInProgress(true)
@@ -691,7 +705,7 @@ export default function PersonalDashboard() {
               return (
                 <div key={m} className="flex-shrink-0 flex items-center gap-0.5">
                   <button
-                    onClick={() => setSelectedMonth(m)}
+                    onClick={(e) => { e.preventDefault(); setSelectedMonth(m) }}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
                       isSelected
                         ? isBacklogTab
@@ -727,6 +741,18 @@ export default function PersonalDashboard() {
                     >
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                  {/* Delete month button — all non-Backlog months */}
+                  {!isBacklogTab && (
+                    <button
+                      onClick={e => { e.stopPropagation(); setDeleteMonthTarget(m) }}
+                      title={`Radera ${m} permanent`}
+                      className="w-5 h-5 rounded flex items-center justify-center text-purple-400/20 hover:text-red-500 hover:bg-red-500/10 transition-all"
+                    >
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                       </svg>
                     </button>
                   )}
@@ -923,11 +949,13 @@ export default function PersonalDashboard() {
                   {isBacklog && (
                     <th className="px-3 py-3 text-left text-amber-300/70 font-medium whitespace-nowrap text-xs">Från</th>
                   )}
-                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Bransch</th>
-                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Språk</th>
                   <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Ansvarig</th>
                   <th className="px-3 py-3 text-left text-purple-300/70 font-medium text-xs min-w-[180px]">Kommentar</th>
-                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs min-w-[160px]">Uppdaterad</th>
+                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Frekvens</th>
+                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Bank</th>
+                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Språk</th>
+                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Bransch</th>
+                  <th className="px-3 py-3 text-left text-purple-300/70 font-medium whitespace-nowrap text-xs">Status</th>
                   {!isReadOnly && <th className="px-2 py-3 w-8" />}
                 </tr>
               </thead>
@@ -936,11 +964,11 @@ export default function PersonalDashboard() {
                   const inactive  = isInactive(row)
                   const complete  = !inactive && isComplete(row)
                   const disabled  = inactive || isReadOnly
-                  const rowBase   = inactive ? 'opacity-40' : complete ? 'bg-green-500/[0.06]' : i % 2 === 1 ? 'bg-white/[0.02]' : ''
+                  const rowBase   = inactive ? 'opacity-40' : complete ? 'bg-green-500/[0.06]' : i % 2 === 0 ? 'bg-white/[0.05]' : 'bg-[#f0faf4]/[0.06]'
                   return (
                     <tr key={row.id ?? `${row.client_id}-${i}`}
-                      className={`border-b border-white/[0.05] transition-colors hover:bg-white/[0.04] ${rowBase}`}>
-                      <td className="sticky left-0 z-10 bg-purple-950 px-3 py-2 border-r border-white/5 w-[70px]">
+                      className={`group border-b border-white/[0.05] transition-colors hover:bg-green-500/[0.05] ${rowBase}`}>
+                      <td className="sticky left-0 z-10 bg-purple-950 px-3 py-2 border-r border-white/5 border-l-2 border-l-transparent group-hover:border-l-green-400/60 transition-colors w-[70px]">
                         <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-bold ${row.skr === 'AB' ? 'bg-purple-500/20 text-purple-300' : row.skr === 'EF' ? 'bg-blue-500/20 text-blue-300' : 'bg-orange-500/20 text-orange-300'}`}>
                           {row.skr}
                         </span>
@@ -971,8 +999,6 @@ export default function PersonalDashboard() {
                           ) : null}
                         </td>
                       )}
-                      <td className="px-3 py-2 text-purple-200/60 whitespace-nowrap text-xs">{row.bransch}</td>
-                      <td className="px-3 py-2 text-purple-200/60 whitespace-nowrap text-xs">{row.sprak}</td>
                       <td className="px-3 py-2">
                         <select value={row.ansvarig} onChange={e => updateField(row.id, 'ansvarig', e.target.value)}
                           disabled={disabled}
@@ -988,8 +1014,16 @@ export default function PersonalDashboard() {
                           disabled={disabled} placeholder="Anteckning..."
                           className="w-full bg-transparent border-b border-white/10 focus:border-purple-400/50 outline-none text-xs text-purple-200 placeholder:text-purple-400/25 py-0.5 transition-colors disabled:cursor-not-allowed" />
                       </td>
-                      <td className="px-3 py-2 text-purple-300/40 text-[11px] whitespace-nowrap">
-                        {formatTimestamp(row.updated_at, row.updated_by)}
+                      <td className="px-3 py-2 text-purple-200/60 whitespace-nowrap text-xs">{row.freq}</td>
+                      <td className="px-3 py-2 text-purple-200/60 whitespace-nowrap text-xs">{row.bank}</td>
+                      <td className="px-3 py-2 text-purple-200/60 whitespace-nowrap text-xs">{row.sprak}</td>
+                      <td className="px-3 py-2 text-purple-200/60 whitespace-nowrap text-xs">{row.bransch}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {isInactive(row) ? (
+                          <span className="text-[11px] bg-gray-500/20 text-gray-400 border border-gray-500/30 px-2 py-0.5 rounded-full">Inaktiv</span>
+                        ) : (
+                          <span className="text-[11px] bg-green-500/20 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">Aktiv</span>
+                        )}
                       </td>
                       {!isReadOnly && (
                         <td className="px-2 py-2 text-center">
@@ -1162,6 +1196,32 @@ export default function PersonalDashboard() {
         </Modal>
       )}
 
+      {/* ── Delete Month Confirmation Modal ── */}
+      {deleteMonthTarget && (
+        <Modal title={`Radera ${deleteMonthTarget}?`} onClose={() => setDeleteMonthTarget(null)}>
+          <div className="space-y-4">
+            <p className="text-purple-200/80 text-sm">
+              All data för <strong className="text-white">{deleteMonthTarget}</strong> raderas permanent från databasen.
+              Detta går inte att ångra.
+            </p>
+            <div className="bg-red-500/10 border border-red-400/20 rounded-lg px-3 py-2 text-red-300/70 text-xs">
+              Alla klientrader för denna månad tas bort permanent.
+            </div>
+            <div className="flex gap-2 justify-end">
+              <button onClick={() => setDeleteMonthTarget(null)} className="px-4 py-2 text-sm text-purple-300 hover:text-white transition-colors">
+                Avbryt
+              </button>
+              <button
+                onClick={() => deleteMonth(deleteMonthTarget!)}
+                className="px-4 py-2 text-sm bg-red-600/30 hover:bg-red-600/50 border border-red-500/30 text-red-200 rounded-lg transition-all"
+              >
+                Radera permanent
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
       {/* ── Delete Client Confirmation Modal ── */}
       {deleteTarget && (
         <Modal title="Ta bort klient?" onClose={() => setDeleteTarget(null)}>
@@ -1179,7 +1239,7 @@ export default function PersonalDashboard() {
                 Avbryt
               </button>
               <button
-                onClick={() => deleteClient(deleteTarget)}
+                onClick={() => deleteClient(deleteTarget!)}
                 className="px-4 py-2 text-sm bg-red-600/30 hover:bg-red-600/50 border border-red-500/30 text-red-200 rounded-lg transition-all flex items-center gap-1.5"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
