@@ -964,11 +964,11 @@ export default function PersonalDashboard() {
                   const inactive  = isInactive(row)
                   const complete  = !inactive && isComplete(row)
                   const disabled  = inactive || isReadOnly
-                  const rowBase   = inactive ? 'opacity-40' : complete ? 'bg-green-500/[0.06]' : i % 2 === 0 ? 'bg-white/[0.05]' : 'bg-[#f0faf4]/[0.06]'
+                  const rowBase   = inactive ? 'opacity-40' : complete ? 'bg-green-500/[0.06]' : i % 2 === 0 ? 'bg-white/[0.15]' : 'bg-[#1a5c38]/[0.15]'
                   return (
                     <tr key={row.id ?? `${row.client_id}-${i}`}
-                      className={`group border-b border-white/[0.05] transition-colors hover:bg-green-500/[0.05] ${rowBase}`}>
-                      <td className="sticky left-0 z-10 bg-purple-950 px-3 py-2 border-r border-white/5 border-l-2 border-l-transparent group-hover:border-l-green-400/60 transition-colors w-[70px]">
+                      className={`group border-b border-white/[0.05] transition-colors hover:bg-[#1a5c38]/25 ${rowBase}`}>
+                      <td className="sticky left-0 z-10 bg-purple-950 px-3 py-2 border-r border-white/5 border-l-[3px] border-l-transparent group-hover:border-l-green-500 transition-colors w-[70px]">
                         <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-bold ${row.skr === 'AB' ? 'bg-purple-500/20 text-purple-300' : row.skr === 'EF' ? 'bg-blue-500/20 text-blue-300' : 'bg-orange-500/20 text-orange-300'}`}>
                           {row.skr}
                         </span>

@@ -14,6 +14,8 @@ const Contact = () => {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
 
     try {
       const response = await fetch('/api/contact', {
@@ -28,18 +30,24 @@ const Contact = () => {
           service: formData.get('service'),
           message: formData.get('message'),
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
 
       if (response.ok) {
         setIsSubmitted(true);
         form.reset();
-        setTimeout(() => setIsSubmitted(false), 5000);
       } else {
         alert('Ett fel uppstod. Vänligen försök igen.');
       }
     } catch (error) {
-      console.error('Form submission error:', error);
-      alert('Ett fel uppstod. Vänligen försök igen.');
+      clearTimeout(timeout);
+      if (error instanceof Error && error.name === 'AbortError') {
+        alert('Förfrågan tog för lång tid. Vänligen försök igen.');
+      } else {
+        console.error('Form submission error:', error);
+        alert('Ett fel uppstod. Vänligen försök igen.');
+      }
     }
   };
 
@@ -87,6 +95,23 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             className="bg-white rounded-2xl shadow-xl p-8"
           >
+            {isSubmitted ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-green-800 mb-2">Tack för ditt meddelande!</h3>
+                <p className="text-green-700 mb-6">Vi återkommer inom 24 timmar.</p>
+                <button
+                  onClick={() => setIsSubmitted(false)}
+                  className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 text-sm"
+                >
+                  Skicka ett nytt meddelande
+                </button>
+              </div>
+            ) : (
             <form
               name="contact"
               method="POST"
@@ -104,12 +129,6 @@ const Contact = () => {
                   Don&apos;t fill this out if you&apos;re human: <input name="bot-field" />
                 </label>
               </div>
-
-              {isSubmitted && (
-                <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                  Tack för ditt meddelande! Vi återkommer inom 24 timmar.
-                </div>
-              )}
 
               <div>
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -223,6 +242,7 @@ const Contact = () => {
                 <Send size={20} />
               </motion.button>
             </form>
+            )}
           </motion.div>
 
           {/* Contact Info */}

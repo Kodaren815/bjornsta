@@ -71,6 +71,8 @@ export default function ArabicPage() {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -79,17 +81,28 @@ export default function ArabicPage() {
           name: formData.get('name'),
           company: formData.get('company'),
           email: formData.get('email'),
+          phone: formData.get('phone'),
+          language: formData.get('language'),
           service: formData.get('service'),
           message: formData.get('message'),
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
       if (res.ok) {
         setSubmitted(true);
         form.reset();
-        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        alert('حدث خطأ. يرجى المحاولة مرة أخرى.');
       }
     } catch (err) {
-      console.error(err);
+      clearTimeout(timeout);
+      if (err instanceof Error && err.name === 'AbortError') {
+        alert('انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.');
+      } else {
+        console.error(err);
+        alert('حدث خطأ. يرجى المحاولة مرة أخرى.');
+      }
     }
   };
 
@@ -349,16 +362,27 @@ export default function ArabicPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="bg-white rounded-2xl shadow-xl p-8 order-2 lg:order-1">
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-green-800 mb-2">شكراً على رسالتك!</h3>
+                  <p className="text-green-700 mb-6">سنرد عليك خلال 24 ساعة.</p>
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 text-sm"
+                  >
+                    إرسال رسالة أخرى
+                  </button>
+                </div>
+              ) : (
               <form
                 onSubmit={handleSubmit}
                 className="space-y-5"
               >
-                {submitted && (
-                  <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-right">
-                    شكراً لرسالتك! سنرد عليك خلال 24 ساعة.
-                  </div>
-                )}
-
                 <div>
                   <label htmlFor="ar-name" className="block text-sm font-semibold text-gray-700 mb-2 text-right">الاسم *</label>
                   <input type="text" id="ar-name" name="name" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-right" placeholder="اسمك الكامل" />
@@ -370,6 +394,19 @@ export default function ArabicPage() {
                 <div>
                   <label htmlFor="ar-email" className="block text-sm font-semibold text-gray-700 mb-2 text-right">البريد الإلكتروني *</label>
                   <input type="email" id="ar-email" name="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" placeholder="your@email.com" dir="ltr" />
+                </div>
+                <div>
+                  <label htmlFor="ar-phone" className="block text-sm font-semibold text-gray-700 mb-2 text-right">رقم الهاتف</label>
+                  <input type="tel" id="ar-phone" name="phone" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" placeholder="+46 (0) 123 456 789" dir="ltr" />
+                </div>
+                <div>
+                  <label htmlFor="ar-language" className="block text-sm font-semibold text-gray-700 mb-2 text-right">اللغة المفضلة</label>
+                  <select id="ar-language" name="language" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white text-right">
+                    <option value="">اختر اللغة</option>
+                    <option value="arabic">العربية</option>
+                    <option value="svenska">Svenska</option>
+                    <option value="english">English</option>
+                  </select>
                 </div>
                 <div>
                   <label htmlFor="ar-service" className="block text-sm font-semibold text-gray-700 mb-2 text-right">أنا مهتم بـ</label>
@@ -390,6 +427,7 @@ export default function ArabicPage() {
                   إرسال الرسالة
                 </button>
               </form>
+              )}
             </div>
 
             <div className="space-y-6 order-1 lg:order-2">

@@ -75,6 +75,8 @@ export default function EnglishPage() {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -83,17 +85,28 @@ export default function EnglishPage() {
           name: formData.get('name'),
           company: formData.get('company'),
           email: formData.get('email'),
+          phone: formData.get('phone'),
+          language: formData.get('language'),
           service: formData.get('service'),
           message: formData.get('message'),
         }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
       if (res.ok) {
         setSubmitted(true);
         form.reset();
-        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        alert('An error occurred. Please try again.');
       }
     } catch (err) {
-      console.error(err);
+      clearTimeout(timeout);
+      if (err instanceof Error && err.name === 'AbortError') {
+        alert('The request timed out. Please try again.');
+      } else {
+        console.error(err);
+        alert('An error occurred. Please try again.');
+      }
     }
   };
 
@@ -325,6 +338,23 @@ export default function EnglishPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="bg-white rounded-2xl shadow-xl p-8">
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-green-800 mb-2">Thank you for your message!</h3>
+                  <p className="text-green-700 mb-6">We will get back to you within 24 hours.</p>
+                  <button
+                    onClick={() => setSubmitted(false)}
+                    className="bg-gradient-to-r from-purple-600 to-violet-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 text-sm"
+                  >
+                    Send another message
+                  </button>
+                </div>
+              ) : (
               <form
                 name="contact-en"
                 method="POST"
@@ -335,12 +365,6 @@ export default function EnglishPage() {
               >
                 <input type="hidden" name="form-name" value="contact-en" />
                 <div className="hidden"><input name="bot-field" /></div>
-
-                {submitted && (
-                  <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                    Thank you! We will get back to you within 24 hours.
-                  </div>
-                )}
 
                 <div>
                   <label htmlFor="en-name" className="block text-sm font-semibold text-gray-700 mb-2">Name *</label>
@@ -353,6 +377,19 @@ export default function EnglishPage() {
                 <div>
                   <label htmlFor="en-email" className="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
                   <input type="email" id="en-email" name="email" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" placeholder="your@email.com" />
+                </div>
+                <div>
+                  <label htmlFor="en-phone" className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                  <input type="tel" id="en-phone" name="phone" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all" placeholder="+46 (0) 123 456 789" />
+                </div>
+                <div>
+                  <label htmlFor="en-language" className="block text-sm font-semibold text-gray-700 mb-2">Preferred language</label>
+                  <select id="en-language" name="language" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white">
+                    <option value="">Select language</option>
+                    <option value="english">English</option>
+                    <option value="svenska">Svenska</option>
+                    <option value="arabic">العربية</option>
+                  </select>
                 </div>
                 <div>
                   <label htmlFor="en-service" className="block text-sm font-semibold text-gray-700 mb-2">I am interested in</label>
@@ -373,6 +410,7 @@ export default function EnglishPage() {
                   Send message
                 </button>
               </form>
+              )}
             </div>
 
             <div className="space-y-6">
