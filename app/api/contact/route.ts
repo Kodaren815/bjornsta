@@ -1,9 +1,4 @@
 import { NextResponse } from 'next/server'
-import { Resend } from 'resend'
-
-function esc(str: string): string {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-}
 
 export async function POST(request: Request) {
   try {
@@ -14,28 +9,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    const secret = process.env.NETLIFY_EMAILS_SECRET
+    if (!secret) {
+      return NextResponse.json({ error: 'Email service not configured' }, { status: 500 })
+    }
 
-    const { error } = await resend.emails.send({
-      from: 'Björnsta Website <noreply@bjornstaconsulting.com>',
-      to: 'fakhri.shehab@bjornstaconsulting.com',
-      replyTo: email,
-      subject: `Nytt meddelande från ${esc(name)}${company ? ` – ${esc(company)}` : ''}`,
-      html: `
-        <h2 style="color:#7c3aed">Nytt kontaktformulär — Björnsta</h2>
-        <p><strong>Namn:</strong> ${esc(name)}</p>
-        ${company ? `<p><strong>Företag:</strong> ${esc(company)}</p>` : ''}
-        <p><strong>E-post:</strong> ${esc(email)}</p>
-        ${phone ? `<p><strong>Telefon:</strong> ${esc(phone)}</p>` : ''}
-        ${language ? `<p><strong>Föredragen kommunikation:</strong> ${esc(language)}</p>` : ''}
-        ${service ? `<p><strong>Tjänst:</strong> ${esc(service)}</p>` : ''}
-        <hr style="border:1px solid #e5e7eb;margin:16px 0"/>
-        <p><strong>Meddelande:</strong></p>
-        <p style="white-space:pre-wrap">${esc(message)}</p>
-      `,
+    const siteUrl = process.env.URL || process.env.DEPLOY_URL || 'http://localhost:8888'
+
+    const res = await fetch(`${siteUrl}/.netlify/functions/emails/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'netlify-emails-secret': secret,
+      },
+      body: JSON.stringify({
+        from: 'noreply@bjornstaconsulting.com',
+        to: 'fakhri.shehab@bjornstaconsulting.com',
+        subject: `Nytt meddelande från ${name}${company ? ` – ${company}` : ''}`,
+        parameters: { name, company, email, phone, language, service, message },
+      }),
     })
 
-    if (error) {
+    if (!res.ok) {
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
     }
 
