@@ -14,25 +14,13 @@ const Contact = () => {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.get('name'),
-          company: formData.get('company'),
-          email: formData.get('email'),
-          phone: formData.get('phone'),
-          language: formData.get('language'),
-          service: formData.get('service'),
-          message: formData.get('message'),
-        }),
-        signal: controller.signal,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
       });
-      clearTimeout(timeout);
 
       if (response.ok) {
         setIsSubmitted(true);
@@ -41,13 +29,8 @@ const Contact = () => {
         alert('Ett fel uppstod. Vänligen försök igen.');
       }
     } catch (error) {
-      clearTimeout(timeout);
-      if (error instanceof Error && error.name === 'AbortError') {
-        alert('Förfrågan tog för lång tid. Vänligen försök igen.');
-      } else {
-        console.error('Form submission error:', error);
-        alert('Ett fel uppstod. Vänligen försök igen.');
-      }
+      console.error('Form submission error:', error);
+      alert('Ett fel uppstod. Vänligen försök igen.');
     }
   };
 
