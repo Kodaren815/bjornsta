@@ -18,6 +18,81 @@ a[href^="#"] {
   scroll-behavior: smooth;
 }
 
+/* ── Shared keyframes ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(10px); }
+}
+
+/* Utility: stagger-friendly fade-in-up */
+.anim-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+.anim-fade-in-down {
+  opacity: 0;
+  animation: fadeInDown 0.5s ease forwards;
+}
+.anim-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Stagger delay helpers */
+.anim-delay-100 { animation-delay: 0.1s; }
+.anim-delay-200 { animation-delay: 0.2s; }
+.anim-delay-300 { animation-delay: 0.3s; }
+.anim-delay-400 { animation-delay: 0.4s; }
+.anim-delay-450 { animation-delay: 0.45s; }
+.anim-delay-500 { animation-delay: 0.5s; }
+.anim-delay-550 { animation-delay: 0.55s; }
+.anim-delay-600 { animation-delay: 0.6s; }
+.anim-delay-1200 { animation-delay: 1.2s; }
+
+/* Scroll-triggered reveal (used via IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* Performance optimization for animations */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -27,5 +102,9 @@ a[href^="#"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .reveal, .reveal-left, .reveal-right {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

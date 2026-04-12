@@ -1,12 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Globe } from 'lucide-react';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 const Hero = () => {
-  const prefersReducedMotion = useReducedMotion();
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-purple-50 via-white to-violet-50 pt-32">
       {/* Animated gradient orbs */}
@@ -23,69 +20,39 @@ const Hero = () => {
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-0">
         <div className="flex flex-col items-center text-center">
-          <motion.div
-            initial={prefersReducedMotion ? undefined : { opacity: 0, y: 30 }}
-            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="w-full"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-block mb-6"
-            >
+          <div className="w-full">
+            <div className="inline-block mb-6 anim-fade-in-up anim-delay-200">
               <span className="bg-gradient-to-r from-purple-100 to-violet-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold">
                 Redovisningsbyrå i Eskilstuna – kunder i hela Sverige
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
-            >
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight anim-fade-in-up anim-delay-300">
               Redovisningsbyrå i Eskilstuna med kunder i{' '}
               <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
                 hela Sverige
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-gray-600 mb-6 max-w-xl mx-auto"
-            >
+            <p className="text-lg text-gray-600 mb-6 max-w-xl mx-auto anim-fade-in-up anim-delay-400">
               Vi arbetar digitalt och ger dig personlig service var du än befinner dig i Sverige.
               Björnsta erbjuder professionell bokföring, redovisning och skattetjänster — på svenska,
               engelska och arabiska.
-            </motion.p>
+            </p>
 
             {/* Trust stats row */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="flex flex-wrap gap-4 justify-center mb-8"
-            >
+            <div className="flex flex-wrap gap-4 justify-center mb-8 anim-fade-in-up anim-delay-450">
               <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
                 <span className="font-bold text-purple-600">110+</span>
                 <span className="text-gray-600 text-sm">kunder</span>
               </div>
-<div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
+              <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-sm border border-purple-100">
                 <Globe size={16} className="text-purple-600" />
                 <span className="text-gray-600 text-sm">Svenska / English / العربية</span>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="space-y-3 mb-8"
-            >
+            <div className="space-y-3 mb-8 anim-fade-in-up anim-delay-500">
               {[
                 '5+ års erfarenhet i branschen',
                 '110+ nöjda kunder i hela Sverige',
@@ -96,14 +63,9 @@ const Hero = () => {
                   <span className="text-gray-700">{item}</span>
                 </div>
               ))}
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center anim-fade-in-up anim-delay-600">
               <Link
                 prefetch={false}
                 href="#contact"
@@ -119,26 +81,20 @@ const Hero = () => {
               >
                 Se våra tjänster
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block anim-fade-in anim-delay-1200">
+        <div
           className="w-6 h-10 border-2 border-purple-600 rounded-full flex justify-center p-2"
+          style={{ animation: 'scrollBounce 1.5s ease-in-out infinite' }}
         >
-          <motion.div className="w-1 h-2 bg-purple-600 rounded-full" />
-        </motion.div>
-      </motion.div>
+          <div className="w-1 h-2 bg-purple-600 rounded-full" />
+        </div>
+      </div>
     </section>
   );
 };

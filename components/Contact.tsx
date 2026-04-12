@@ -1,12 +1,13 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { useReveal } from '@/hooks/useReveal';
 
 const Contact = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const headerRef = useReveal<HTMLDivElement>();
+  const formRef = useReveal<HTMLDivElement>();
+  const infoRef = useReveal<HTMLDivElement>();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,7 +17,7 @@ const Contact = () => {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('/', {
+      const response = await fetch('/contact.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData as unknown as Record<string, string>).toString(),
@@ -50,13 +51,7 @@ const Contact = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <div ref={headerRef} className="text-center mb-16 reveal">
           <span className="text-purple-600 font-semibold text-sm uppercase tracking-wide">Kontakta Oss</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
             Redo att ta nästa steg för{' '}
@@ -68,16 +63,11 @@ const Contact = () => {
             Boka en kostnadsfri konsultation. Vi återkommer inom 24 timmar och hjälper dig att
             komma igång — oavsett var i Sverige ditt företag befinner sig.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="bg-white rounded-2xl shadow-xl p-8"
-          >
+          <div ref={formRef} className="bg-white rounded-2xl shadow-xl p-8 reveal-left">
             {isSubmitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
@@ -215,26 +205,19 @@ const Contact = () => {
                 />
               </div>
 
-              <motion.button
+              <button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center space-x-2"
               >
                 <span>Skicka meddelande</span>
                 <Send size={20} />
-              </motion.button>
+              </button>
             </form>
             )}
-          </motion.div>
+          </div>
 
           {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
-          >
+          <div ref={infoRef} className="space-y-8 reveal-right">
             <div className="bg-gradient-to-br from-purple-600 to-violet-600 text-white rounded-2xl shadow-xl p-8">
               <h3 className="text-2xl font-bold mb-6">Kontaktinformation</h3>
               <div className="space-y-6">
@@ -297,7 +280,7 @@ const Contact = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
